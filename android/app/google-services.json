@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "346605474551",
+    "project_id": "metrobike-ec82b",
+    "storage_bucket": "metrobike-ec82b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346605474551:android:9d511327e51bf47f05b9f2",
+        "android_client_info": {
+          "package_name": "com.metrobike.metrobike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346605474551-cnk1sak2v1fvmdljt0ppe3ifmoasi5mj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGP9bM7cBYXEoPP7uhGVUU1mmwDeSeyXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346605474551-cnk1sak2v1fvmdljt0ppe3ifmoasi5mj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
