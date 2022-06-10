@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:metrobike/Auth/jointoday.dart';
 import 'package:metrobike/Auth/register.dart';
 import 'package:metrobike/Auth/survey.dart';
+import 'package:metrobike/Auth/verifyaccpage.dart';
 
 // screens
 import 'package:metrobike/auth/jointoday.dart' as jointayo;
@@ -25,6 +26,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => DevPage());
       case '/verifyacc1':
         return MaterialPageRoute(builder: (_) => const Verifyacc1());
+      case '/verifyaccpage':
+        return MaterialPageRoute(builder: (_) => const Verifyaccpage());
       case '/personalize':
         return MaterialPageRoute(builder: (_) => const PersonalizeMessage());
       case '/survey':

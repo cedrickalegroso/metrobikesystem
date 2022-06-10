@@ -109,7 +109,9 @@ final Widget svgIcon = SvgPicture.asset(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             )),
-                        onPressed: null,
+                         onPressed: () {
+                           Navigator.of(context).pushNamed('/verifyaccpage');
+                        },
                         child: const Text(
                           'Verify Account',
                           style: TextStyle(
