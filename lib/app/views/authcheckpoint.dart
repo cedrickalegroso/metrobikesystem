@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:metrobike/Auth/register.dart';
+import 'package:metrobike/Auth/verifyacc.dart';
 import 'package:metrobike/Services/AuthService.dart';
 import 'package:metrobike/app/views/dashboard.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +21,14 @@ class _CheckPointStateful extends State<CheckPointStateful> {
 
     return userData != null
         ? userData.hasDoneSetup == 1
-            ? DashboardComStateful()
+            ? userData.isverified == 1
+              ? DashboardComStateful()
+              : const Verifyacc1()
             : Register()
+
+            // ? DashboardComStateful()
+            // : Register()
+
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

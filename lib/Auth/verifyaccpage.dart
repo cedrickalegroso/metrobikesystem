@@ -1,5 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'dart:io';
+
+import 'package:provider/provider.dart';
+
+import '../Services/Models.dart';
 
 class Verifyaccpage extends StatefulWidget {
   const Verifyaccpage({Key? key}) : super(key: key);
@@ -21,9 +29,32 @@ class _VerifyaccpagePageState extends State<Verifyaccpage> {
 
   String dropdownValue = 'Select Card';
 
+  final _imagePicker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
+    final userData = context.watch<UserData?>();
     final screenData = MediaQuery.of(context);
+
+    final firebaseUserID = FirebaseAuth.instance.currentUser;
+
+    _newProfilePicture() async {
+      final image = await _imagePicker.getImage(source: ImageSource.camera);
+
+      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('IDENTIFICATION')
+          .child('/${firebaseUserID!.uid}.png');
+
+      firebase_storage.UploadTask uploadTask;
+      uploadTask = ref.putFile(File(image!.path));
+      await uploadTask;
+      ref.getDownloadURL().then((fileUrl) {
+        print(fileUrl);
+        //   DatabaseService().updatePorfilePicture(fileUrl, userData.uid);
+      });
+    }
+
     // final user = context.watch<User>();
 
     return Scaffold(
@@ -88,8 +119,12 @@ class _VerifyaccpagePageState extends State<Verifyaccpage> {
                               dropdownValue = newValue!;
                             });
                           },
-                          items: <String>['Select Card', 'National ID', 'Passport', 'Voters ID']
-                              .map<DropdownMenuItem<String>>((String value) {
+                          items: <String>[
+                            'Select Card',
+                            'National ID',
+                            'Passport',
+                            'Voters ID'
+                          ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -145,6 +180,18 @@ class _VerifyaccpagePageState extends State<Verifyaccpage> {
                     SizedBox(
                       height: MediaQuery.of(context).size.width / 8,
                     ),
+                    InkWell(
+                      onTap: () {
+                        _newProfilePicture();
+                      },
+                      child: const Text('TEST UPLOAD',
+                          style: TextStyle(
+                            fontFamily: 'OpenSans',
+                            fontSize: 16,
+                            color: Color(0xff117AFF),
+                          ),
+                          textAlign: TextAlign.center),
+                    ),
                     Container(
                         padding: const EdgeInsets.only(top: 32.0),
                         child: Container(
@@ -175,8 +222,8 @@ class _VerifyaccpagePageState extends State<Verifyaccpage> {
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Text(
+                            children:  [
+                          const    Text(
                                   "Verifications usually take 1-2 days prior to submission of application.",
                                   style: TextStyle(
                                     fontFamily: 'OpenSans',
@@ -185,6 +232,18 @@ class _VerifyaccpagePageState extends State<Verifyaccpage> {
                                     fontWeight: FontWeight.normal,
                                   ),
                                   textAlign: TextAlign.center),
+                                       InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/devpage');
+                          },
+                          child: const Text('DEV MODE',
+                              style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontSize: 16,
+                                color: Color(0xff117AFF),
+                              ),
+                              textAlign: TextAlign.center),
+                        ),
                             ])),
                   ]),
             ),
