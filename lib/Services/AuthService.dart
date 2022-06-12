@@ -1,84 +1,63 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:metrobike/Services/DatabaseService.dart';
 import 'package:metrobike/Services/Models.dart';
-
-
+import 'package:flutter/material.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   AuthService(this._firebaseAuth);
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  // Stream<UserData> get user {
-  //   return _auth.authStateChanges().map(
-  //         (User firebaseUser) =>
-  //             (firebaseUser != null) ? UserData(uid: firebaseUser.uid) : null,
-  //       );
-  // }
 
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
 
-  // Future<bool> signIn({String email, String password}) async {
-  //   try {
-  //     await _firebaseAuth.signInWithEmailAndPassword(
-  //         email: email, password: password);
-  //     print('userfound');
-  //     return true; // not the best way AHHAHA
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'user-not-found') {
-  //       //update later with message pop ups or kung ano man da
-  //       print('No user found for that email.');
-  //     } else if (e.code == 'wrong-password') {
-  //       print('Wrong password provided for that user.');
-  //     }
-  //     return false;
-  //   }
-  // }
-
-  Future<bool> signUp({required String email, required String password, required int type}) async {
-    print('Type $type');
-    // try {
-    //   await _firebaseAuth.createUserWithEmailAndPassword(
-    //       email: email, password: password);
-    // } catch (e) {
-    //   return e.message;
-    // }
+  // sign out user
+  Future<bool> signout() async {
     try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
-      print('user signed up successfully');
-      var uid = FirebaseAuth.instance.currentUser.uid;
-
-      type == 1
-          ? DatabaseService().addCommunityToDatabase(uid, email)
-          : DatabaseService().addUserToDatabase(uid, email);
-
+      await FirebaseAuth.instance.signOut();
       return true;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      //update later with message pop ups or kung ano man da
+      print(e.message);
       return false;
     }
   }
 
-  // Future<void> addUser({String email, String fullName}) async {
-  //   CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  //   String uid = FirebaseAuth.instance.currentUser.uid;
-  //   users
-  //       .doc(uid)
-  //       .set({
-  //         'full name': fullName,
-  //         'email': email,
-  //         'uid': uid,
-  //       })
-  //       .then((value) => print("User Added"))
-  //       .catchError((error) => print("Failed to add user: $error"));
-  // }
+  // signin User
+  Future<bool> signIn({required String email, required String password}) async {
+    // await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      //update later with message pop ups or kung ano man da
+      print(e.message);
+      return false;
+    }
+  }
+
+  // signup User
+  Future<bool> signUp({required String email, required String password}) async {
+    // await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) =>
+              DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+                  .initializeUseronCloudFirestore(
+                      uid: FirebaseAuth.instance.currentUser!.uid,
+                      email: email));
+      return true;
+    } on FirebaseAuthException catch (e) {
+      //update later with message pop ups or kung ano man da
+      print(e.message);
+      return false;
+    }
+  }
 }

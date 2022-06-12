@@ -1,14 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:metrobike/auth/jointoday.dart';
+import 'package:metrobike/Auth/jointoday.dart';
+import 'package:metrobike/app/MainAuthPage.dart';
 import 'package:metrobike/route.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'dart:io' show Platform;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Services/AuthService.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+    const bool USE_EMULATOR = true;
+
+    if (USE_EMULATOR) {
+    // [Firestore | localhost:8080]
+    FirebaseFirestore.instance.settings = const Settings(
+      host: '10.0.2.2:8080',
+      sslEnabled: false,
+      persistenceEnabled: false,
+    );
+    
+    // [Authentication | localhost:9099]
+    await FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
+
+ 
+  }
+
   runApp(const MyApp());
 }
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -16,24 +40,28 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+   
+    return MultiProvider(
+      providers: [       
+        Provider<AuthService>(
+          create: (_) => AuthService(FirebaseAuth.instance),
+        ),
+          StreamProvider(
+          create: (context) => context.read<AuthService>().authStateChanges,
+          initialData: null,
+        ),
+        
+      ],
+      child:   MaterialApp(
+      title: 'MetroBike',
        onGenerateRoute: RouteGenerator.generateRoute,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),
         primarySwatch: Colors.blue,
       ),
-      home: JoinToday(),
-    );
+      home: MainAuthPage(),
+    ));
   }
 }
+
 

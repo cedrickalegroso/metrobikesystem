@@ -39,6 +39,7 @@ dependencies:
   adobe_xd: ^2.0.1
   flutter_svg: ^1.0.3
   cloud_firestore: ^3.1.17
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,28 +1,40 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:metrobike/auth/jointoday.dart';
+import 'package:provider/provider.dart';
+
+import '../Services/DatabaseService.dart';
+import '../Services/Models.dart';
 
 class Register extends StatefulWidget {
   @override
-  _JoinTodayPageState createState() => _JoinTodayPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _JoinTodayPageState extends State<Register> {
+class _RegisterPageState extends State<Register> {
   @override
   void initState() {
     super.initState();
     // DatabaseService().userData;
   }
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final _FullNameController = TextEditingController();
+  final _UserNameController = TextEditingController();
+  final _EmailController = TextEditingController();
+  final _AddressController = TextEditingController();
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    final screenData = MediaQuery.of(context);
-    // final user = context.watch<User>();
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: Container(
+      final userData = context.watch<UserData?>();
+    return  Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: SafeArea(child: Center(
+          child: SingleChildScrollView(
+            child: Container(
           width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.all(48),
           child: Column(
@@ -31,8 +43,9 @@ class _JoinTodayPageState extends State<Register> {
               children: [
                 Center(
                   child: Column(
-                    children: const [
-                      Text("Let's set",
+                    children:   [
+                       Text('signed In as ' + userData!.email  ),
+                    const Text("Let's set",
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontSize: 40,
@@ -40,7 +53,7 @@ class _JoinTodayPageState extends State<Register> {
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center),
-                      Text("you up",
+                 const   Text("you up ",
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontSize: 40,
@@ -62,6 +75,7 @@ class _JoinTodayPageState extends State<Register> {
                             width: MediaQuery.of(context).size.width / 1,
                             padding: const EdgeInsets.all(1),
                             child: TextFormField(
+                              controller: _FullNameController,
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -77,6 +91,7 @@ class _JoinTodayPageState extends State<Register> {
                             width: MediaQuery.of(context).size.width / 1,
                             padding: const EdgeInsets.all(1),
                             child: TextFormField(
+                              controller: _UserNameController,
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -92,6 +107,7 @@ class _JoinTodayPageState extends State<Register> {
                             width: MediaQuery.of(context).size.width / 1,
                             padding: const EdgeInsets.all(1),
                             child: TextFormField(
+                              controller: _EmailController,
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
@@ -107,31 +123,18 @@ class _JoinTodayPageState extends State<Register> {
                             width: MediaQuery.of(context).size.width / 1,
                             padding: const EdgeInsets.all(1),
                             child: TextFormField(
+                              controller: _AddressController,
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xff117AFF), width: 2.0),
                                 ),
-                                labelText: 'Password',
+                                labelText: 'Address',
                                 labelStyle: TextStyle(color: Color(0xff117AFF)),
                               ),
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.width / 8,
-                            width: MediaQuery.of(context).size.width / 1,
-                            padding: const EdgeInsets.all(1),
-                            child: TextFormField(
-                              decoration: const InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xff117AFF), width: 2.0),
-                                ),
-                                labelText: 'Verify Password',
-                                labelStyle: TextStyle(color: Color(0xff117AFF)),
-                              ),
-                            ),
-                          ),
+                       
                           Container(
                               padding: const EdgeInsets.only(top: 48.0),
                               child: Container(
@@ -141,9 +144,21 @@ class _JoinTodayPageState extends State<Register> {
                                 child: ElevatedButton(
                                   style: TextButton.styleFrom(
                                       backgroundColor: const Color(0xff117AFF)),
-                                  onPressed: null,
+                              onPressed: () async {
+                                  dynamic result =
+                                      await context.read<DatabaseService>().updateUserOnDatabase(
+                                            fullname: _FullNameController.text.trim(),
+                                            username: _UserNameController.text.trim(),
+                                            email: _EmailController.text.trim(),
+                                            address: _AddressController.text.trim(),
+                                          );
+                                  if (result) {
+                                    Navigator.of(context)
+                                        .pushNamed('/mainAuthPage');
+                                  }
+                                },
                                   child: const Text(
-                                    'Register',
+                                    'Submit',
                                     style: TextStyle(
                                       fontFamily: 'OpenSans',
                                       fontSize: 16,
@@ -180,7 +195,30 @@ class _JoinTodayPageState extends State<Register> {
                     ],
                   ),
                 ),
+                       Container(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/devpage');
+                          },
+                          child: const Text('DEV MODE',
+                              style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontSize: 16,
+                                color: Color(0xff117AFF),
+                              ),
+                              textAlign: TextAlign.center),
+                        ),
+                      ],
+                    ),
+                  ),
               ]),
-        ));
+        ),
+          ),
+        )));
+   
   }
 }

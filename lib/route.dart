@@ -6,7 +6,8 @@ import 'package:metrobike/Auth/verifyaccpage.dart';
 
 
 
-import 'package:metrobike/app/Homepage.dart';
+import 'package:metrobike/app/MainAuthPage.dart';
+import 'package:metrobike/app/views/homepage.dart';
 
 // screens
 import 'package:metrobike/auth/jointoday.dart' as jointayo;
@@ -24,11 +25,13 @@ class RouteGenerator {
     switch (settings.name) {
       case '/jointoday': // @carl gin add ko di kay from splashscreen after 5 seconds ma navigate sya sa wrapper hehe
         return MaterialPageRoute(builder: (_) => JoinToday());
-      case '/register':
-        return MaterialPageRoute(builder: (_) => Register());
+      // case '/register':
+      //   return MaterialPageRoute(builder: (_) => Register());
       case '/devpage':
         return MaterialPageRoute(builder: (_) => DevPage());
-      case '/homepage':
+      case '/mainAuthPage':
+        return MaterialPageRoute(builder: (_) => MainAuthPage());
+            case '/homepage':
         return MaterialPageRoute(builder: (_) => HomePage());
       case '/verifyacc1':
         return MaterialPageRoute(builder: (_) => const Verifyacc1());

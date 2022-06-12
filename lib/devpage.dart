@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:metrobike/Services/AuthService.dart';
+import 'package:provider/provider.dart';
 
 class DevPage extends StatefulWidget {
   @override
@@ -31,7 +33,7 @@ class _DevPagePageState extends State<DevPage> {
                 Center(
                   child: Column(
                     children: const [
-                      Text("DEVPAGE",
+                      Text("METRO BIKE DEVPAGE",
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontSize: 40,
@@ -113,6 +115,30 @@ class _DevPagePageState extends State<DevPage> {
                               Navigator.of(context).pushNamed('/homepage');
                             },
                             child: const Text('Home page',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                             InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/mainAuthPage');
+                            },
+                            child: const Text('Auth Checkpoint',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                              InkWell(
+                            onTap: ()  async {
+                              await context.read<AuthService>().signout();
+                            },
+                            child: const Text('FORCE LOGOUT',
                                 style: TextStyle(
                                   fontFamily: 'OpenSans',
                                   fontSize: 16,
