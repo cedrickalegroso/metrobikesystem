@@ -134,6 +134,43 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
+                            InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/identity');
+                            },
+                            child: const Text('vERcARD',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                             InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/selectID');
+                            },
+                            child: const Text('Select ID',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+         InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/selectIDSecondary');
+                            },
+                            child: const Text('Select ID Secondary',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                          
                               InkWell(
                             onTap: ()  async {
                               await context.read<AuthService>().signout();
@@ -146,6 +183,9 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
+
+                          
+                          
                         ])),
                 Container(
                   padding: const EdgeInsets.only(top: 32.0),

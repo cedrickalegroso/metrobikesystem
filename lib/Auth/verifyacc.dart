@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class Verifyacc1 extends StatefulWidget {
   const Verifyacc1({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class _Verifyacc1PageState extends State<Verifyacc1> {
   @override
   Widget build(BuildContext context) {
     final screenData = MediaQuery.of(context);
-    // final user = context.watch<User>();
+    final user = context.watch<User>();
 
     return Scaffold(
         resizeToAvoidBottomInset: true,
@@ -140,6 +142,26 @@ class _Verifyacc1PageState extends State<Verifyacc1> {
                 ]),
         ),
               )
-            )));
+            )),
+            bottomSheet:    Container(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushNamed('/devpage');
+                          },
+                          child: const Text('DEV MODE',
+                              style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontSize: 16,
+                                color: Color(0xff117AFF),
+                              ),
+                              textAlign: TextAlign.center),
+                        ),
+                      ],
+                    ),
+                  ),);
   }
 }

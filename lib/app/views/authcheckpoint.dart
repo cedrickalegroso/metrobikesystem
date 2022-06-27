@@ -23,7 +23,7 @@ class _CheckPointStateful extends State<CheckPointStateful> {
         ? userData.hasDoneSetup == 1
             ? userData.isverified == 1
               ? DashboardComStateful()
-              : const Verifyacc1()
+              : Verifyacc1()
             : Register()
 
             // ? DashboardComStateful()

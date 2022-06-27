@@ -42,6 +42,9 @@ dependencies:
   provider: ^6.0.3
   image_picker: ^0.8.5+3
   firebase_storage: ^10.2.17
+  flutter_face_api_beta: ^0.0.64
+
+ 
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +72,12 @@ flutter:
   assets:
    - assets/secure.png
    - assets/personalize.png
+   - assets/backarrow.png
+   - assets/id4x.png
+   - assets/backarrownew.png
+   - assets/idver.png
+   - assets/facematch.png
+   - assets/idlogo.png
    
 
   # An image asset can refer to one or more resolution-specific "variants", see

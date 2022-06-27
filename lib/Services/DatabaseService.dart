@@ -16,6 +16,9 @@ class DatabaseService {
 
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('Users');
+  
+  final CollectionReference verificationCollection =
+      FirebaseFirestore.instance.collection('Verification');
 
   // After loggin in with required authentication
   // We will ask them more information to setup
@@ -65,6 +68,141 @@ class DatabaseService {
       return false;
     }
   }
+
+  // ============ PRIMARY ID ============ //
+
+  // initialize the verification document on cloud firestore
+  // later we add more details as the user proceeds
+  Future<bool> initializeAttemptVerification(
+    {
+      required String reference,
+       required String idURL,
+          required String cardType
+    }) async {
+    try {
+      await verificationCollection.doc(reference).set({
+        'referenceCode': reference,      
+        'status': 0,
+      });
+      createPrimaryCardInformartions(reference: reference, idURL: idURL, cardType: cardType);
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+   Future<bool> createPrimaryCardInformartions(
+    {
+      required String reference,
+       required String idURL,
+          required String cardType
+    }) async {
+    try {
+      await verificationCollection.doc(reference).collection('informations').doc('primary').set({
+         'id_photo_url': idURL,
+         'cardType': cardType,
+      });
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+   Future<bool> updateExistingVerificationData(
+    {
+      required String reference,
+      required String nameoncard,
+      required String cardno,
+      required String expirydate,
+      required String placeIssued,
+    }) async {
+    try {
+      await verificationCollection.doc(reference).collection('informations').doc('primary').update({     
+        'nameoncard': nameoncard,
+        'cardno': cardno,
+        'expirydate': expirydate,
+        'placeIssued': placeIssued,
+      });
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  // ============ PRIMARY ID ENDS ============ //
+
+  // ============ SECONDARY ID ============ //
+
+  // initialize the verification document on cloud firestore
+  // later we add more details as the user proceeds
+  Future<bool> initializeAttemptSecondaryVerification(
+    {
+      required String reference,
+       required String idURL,
+          required String cardType
+    }) async {
+    try {
+      await verificationCollection.doc(reference).set({
+        'referenceCode': reference,      
+        'status': 0,
+      });
+      createSecondaryCardInformartions(reference: reference, idURL: idURL, cardType: cardType);
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+   Future<bool> createSecondaryCardInformartions(
+    {
+      required String reference,
+       required String idURL,
+          required String cardType
+    }) async {
+    try {
+      await verificationCollection.doc(reference).collection('informations').doc('secondary').set({
+         'id_photo_url': idURL,
+         'cardType': cardType,
+      });
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+   Future<bool> updateExistingVerificationDataSecondary(
+    {
+      required String reference,
+      required String nameoncard,
+      required String cardno,
+      required String expirydate,
+      required String placeIssued,
+    }) async {
+    try {
+
+      print(nameoncard);
+      print(cardno);
+      print(expirydate);
+      print(placeIssued);
+      await verificationCollection.doc(reference).collection('informations').doc('secondary').update({     
+        'nameoncard': nameoncard,
+        'cardno': cardno,
+        'expirydate': expirydate,
+        'placeIssued': placeIssued,
+      });
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  // ============ SECONDARY ID ENDS ============ //
 
   UserData _getUserData(DocumentSnapshot snapshot) {
    return UserData(

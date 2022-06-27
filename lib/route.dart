@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:metrobike/Auth/jointoday.dart';
 import 'package:metrobike/Auth/register.dart';
 import 'package:metrobike/Auth/survey.dart';
@@ -13,12 +14,19 @@ import 'package:metrobike/app/views/homepage.dart';
 import 'package:metrobike/auth/jointoday.dart' as jointayo;
 import 'package:metrobike/auth/register.dart' as registertayo;
 
+import 'Auth/idcameratake.dart';
+import 'Auth/identitiverification.dart';
+import 'Auth/identityverificationSecondary.dart';
 import 'Auth/personalize.dart';
+import 'Auth/selectIdPagePrimary.dart';
+import 'Auth/selectIdPageSecondary.dart';
 import 'Auth/verifyacc.dart';
 import 'Auth/survey.dart';
 import 'devpage.dart';
 
 class RouteGenerator {
+
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //final args = settings.arguments; //to be used if passing of arguments during navigation is required
 
@@ -40,7 +48,15 @@ class RouteGenerator {
       case '/personalize':
         return MaterialPageRoute(builder: (_) => const PersonalizeMessage());
       case '/survey':
-        return MaterialPageRoute(builder: (_) =>  Survey());
+        return MaterialPageRoute(builder: (_) =>  const Survey());
+      case '/selectID':
+        return MaterialPageRoute(builder: (_) =>  const Selectidpage());
+      case '/selectIDSecondary':
+        return MaterialPageRoute(builder: (_) =>  const SelectidpageSecondary());
+      case '/identitySecondary':
+        return MaterialPageRoute(builder: (_) =>  const indentityverifySecondary());
+      case '/identity':
+        return MaterialPageRoute(builder: (_) =>  const indentityverify());
 
       default:
         return MaterialPageRoute(builder: (_) => JoinToday());
