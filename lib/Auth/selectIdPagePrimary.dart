@@ -149,7 +149,7 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
                                   SizedBox(
                                     height: screenData.size.height / 35,
                                   ),
-                                  const Text("Select your",
+                          const  Text  ("Select your " ,
                                       style: TextStyle(
                                         fontFamily: 'OpenSans',
                                         fontSize: 32,
@@ -187,7 +187,9 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
                                           .initializeAttemptVerification(
                                               reference: firebaseuser.uid,
                                               idURL: idURL,
-                                              cardType: cardType)
+                                              cardType: cardType,
+                                              email: firebaseuser.email.toString()
+                                              )
                                           .then((value) => {
                                                 Navigator.of(context)
                                                     .pushNamed('/identity')

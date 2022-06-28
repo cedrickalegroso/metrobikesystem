@@ -20,8 +20,8 @@ class _CheckPointStateful extends State<CheckPointStateful> {
     final userData = context.watch<UserData?>();
 
     return userData != null
-        ? userData.hasDoneSetup == 1
-            ? userData.isverified == 1
+        ? userData.hasDoneSetup == true
+            ? userData.isverified == true
               ? DashboardComStateful()
               : Verifyacc1()
             : Register()

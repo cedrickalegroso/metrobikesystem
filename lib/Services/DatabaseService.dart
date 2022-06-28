@@ -35,7 +35,7 @@ class DatabaseService {
             'fullname': fullname,
             'username': username,
             'address': address,
-            'hasDoneSetup': 1,
+            'hasDoneSetup': true,
           });
       return true;
     } on Exception catch (e) {
@@ -59,8 +59,8 @@ class DatabaseService {
         'address': '',
         'password': '',
         'username': '',
-        'hasDoneSetup': 0,
-        'isverified': 0
+        'hasDoneSetup': false,
+        'isverified': false
       });
       return true; // UserInitialized on Cloud FireStore
     } on Exception catch (e) {
@@ -77,11 +77,15 @@ class DatabaseService {
     {
       required String reference,
        required String idURL,
-          required String cardType
+          required String cardType,
+            required String email,
     }) async {
+     
     try {
+       print('insered on DB ' + email);
       await verificationCollection.doc(reference).set({
-        'referenceCode': reference,      
+        'referenceCode': reference,    
+         'email': email,
         'status': 0,
       });
       createPrimaryCardInformartions(reference: reference, idURL: idURL, cardType: cardType);
@@ -143,9 +147,10 @@ class DatabaseService {
       required String reference,
        required String idURL,
           required String cardType
+          
     }) async {
     try {
-      await verificationCollection.doc(reference).set({
+      await verificationCollection.doc(reference).update({
         'referenceCode': reference,      
         'status': 0,
       });
@@ -184,11 +189,6 @@ class DatabaseService {
       required String placeIssued,
     }) async {
     try {
-
-      print(nameoncard);
-      print(cardno);
-      print(expirydate);
-      print(placeIssued);
       await verificationCollection.doc(reference).collection('informations').doc('secondary').update({     
         'nameoncard': nameoncard,
         'cardno': cardno,
@@ -211,8 +211,8 @@ class DatabaseService {
         fullName: snapshot['fullname'] ?? '',
         address: snapshot['fullname'] ?? '',
         username: snapshot['username'] ?? '',
-        hasDoneSetup: snapshot['hasDoneSetup'] ?? 0,
-        isverified: snapshot['isverified'] ?? 0,
+        hasDoneSetup: snapshot['hasDoneSetup'] ?? false,
+        isverified: snapshot['isverified'] ?? false,
       );
   }
 

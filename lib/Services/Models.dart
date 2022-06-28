@@ -8,8 +8,8 @@ class UserData {
    String fullName;
    String username;
    String address;
-   int hasDoneSetup;
-   int isverified;
+   bool hasDoneSetup;
+   bool isverified;
 
 
 
@@ -19,7 +19,7 @@ class UserData {
        this.fullName = "",
        this.address = "",
        this.username = "",
-       this.hasDoneSetup = 0,
-       this.isverified = 0,
+       this.hasDoneSetup = false,
+       this.isverified = false,
      });
 }
