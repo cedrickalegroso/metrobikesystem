@@ -110,7 +110,7 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-                             InkWell(
+                          InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed('/homepage');
                             },
@@ -122,7 +122,7 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-                             InkWell(
+                          InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed('/mainAuthPage');
                             },
@@ -134,7 +134,7 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-                            InkWell(
+                          InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed('/identity');
                             },
@@ -146,7 +146,7 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-                             InkWell(
+                          InkWell(
                             onTap: () {
                               Navigator.of(context).pushNamed('/selectID');
                             },
@@ -158,9 +158,10 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-         InkWell(
+                          InkWell(
                             onTap: () {
-                              Navigator.of(context).pushNamed('/selectIDSecondary');
+                              Navigator.of(context)
+                                  .pushNamed('/selectIDSecondary');
                             },
                             child: const Text('Select ID Secondary',
                                 style: TextStyle(
@@ -170,9 +171,33 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-                          
-                              InkWell(
-                            onTap: ()  async {
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .pushNamed('/verProcessDone');
+                            },
+                            child: const Text('verdone page',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/onboarding');
+                            },
+                            child: const Text('onboarding page',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                          InkWell(
+                            onTap: () async {
                               await context.read<AuthService>().signout();
                             },
                             child: const Text('FORCE LOGOUT',
@@ -183,9 +208,6 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
-
-                          
-                          
                         ])),
                 Container(
                   padding: const EdgeInsets.only(top: 32.0),

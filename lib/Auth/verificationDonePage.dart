@@ -3,26 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class Verifyacc1 extends StatefulWidget {
-  const Verifyacc1({Key? key}) : super(key: key);
+class VerifyaccPageDone extends StatefulWidget {
+  const VerifyaccPageDone({Key? key}) : super(key: key);
 
   static const String assetName = 'assets/secure.svg';
   @override
-  _Verifyacc1PageState createState() => _Verifyacc1PageState();
+  _VerifyaccPageDonePageState createState() => _VerifyaccPageDonePageState();
 }
 
-class _Verifyacc1PageState extends State<Verifyacc1> {
+class _VerifyaccPageDonePageState extends State<VerifyaccPageDone> {
   @override
   void initState() {
     super.initState();
     // DatabaseService().userData;
   }
-
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  final Widget svgIcon = SvgPicture.asset(Verifyacc1.assetName,
-      color: Colors.red, semanticsLabel: 'A red up arrow');
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +42,12 @@ class _Verifyacc1PageState extends State<Verifyacc1> {
                         width: MediaQuery.of(context).size.width / 2,
                         padding: const EdgeInsets.all(1),
                         child:
-                            const Image(image: AssetImage('assets/secure.png')),
+                            const Image(image: AssetImage('assets/check.png')),
                       ),
                       Container(
                         padding: const EdgeInsets.only(top: 32.0),
                         width: MediaQuery.of(context).size.width / 1,
-                        child: const Text("Verify your",
+                        child: const Text("You're all set!",
                             style: TextStyle(
                               fontFamily: 'OpenSans',
                               fontSize: 40,
@@ -62,14 +56,6 @@ class _Verifyacc1PageState extends State<Verifyacc1> {
                             ),
                             textAlign: TextAlign.center),
                       ),
-                      const Text("account",
-                          style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontSize: 40,
-                            color: Color(0xff117AFF),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center),
                     ],
                   ),
                 ),
@@ -80,7 +66,7 @@ class _Verifyacc1PageState extends State<Verifyacc1> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
                           Text(
-                              "Here at Metrobike we value genuinity of every transactions. Of course verified users earns more benefits using this app.",
+                              "Verification usually takes 1-2 days prior to submission of application, we will send updates through your registered email. Should you have any concerns please contact out support.",
                               style: TextStyle(
                                 fontFamily: 'OpenSans',
                                 fontSize: 16,
@@ -105,36 +91,11 @@ class _Verifyacc1PageState extends State<Verifyacc1> {
                           Navigator.of(context).pushNamed('/verifyaccpage');
                         },
                         child: const Text(
-                          'Verify Account',
+                          'Back to Home',
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontSize: 16,
                             color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    )),
-                Container(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7,
-                      width: MediaQuery.of(context).size.width / 1,
-                      padding: const EdgeInsets.all(1),
-                      child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: const BorderSide(
-                                  width: 2.0, color: Color(0xff117AFF)),
-                            )),
-                        onPressed: null,
-                        child: const Text(
-                          'Remind me later',
-                          style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontSize: 16,
-                            color: Color(0xff117AFF),
                           ),
                         ),
                       ),

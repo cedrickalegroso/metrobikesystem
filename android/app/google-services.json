@@ -29,6 +29,13 @@
             {
               "client_id": "346605474551-cnk1sak2v1fvmdljt0ppe3ifmoasi5mj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "346605474551-h8ulhhh5jp5o63a7152nb54ghvov9ba5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.metrobikesystems.metrobike"
+              }
             }
           ]
         }

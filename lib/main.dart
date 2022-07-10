@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:metrobike/Auth/jointoday.dart';
 import 'package:metrobike/app/MainAuthPage.dart';
+import 'package:metrobike/firebase_options.dart';
 import 'package:metrobike/route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -12,30 +13,29 @@ import 'Services/AuthService.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-    const bool USE_EMULATOR = true;
+  const bool USE_EMULATOR = true;
 
-    if (USE_EMULATOR) {
+  if (USE_EMULATOR) {
     // [Firestore | localhost:8080]
     FirebaseFirestore.instance.settings = const Settings(
-      host: '10.0.2.2:8080',
+      host: 'localhost:8080',
       sslEnabled: false,
       persistenceEnabled: false,
     );
-    
-    // [Authentication | localhost:9099]
-    await FirebaseAuth.instance.useAuthEmulator('10.0.2.2', 9099);
 
+    // [Authentication | localhost:9099]
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
 
     // [Storage | localhost:9199]
-    await FirebaseStorage.instance.useStorageEmulator('10.0.2.2', 9199);
+    await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
   }
 
   runApp(const MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -43,28 +43,24 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   
     return MultiProvider(
-      providers: [       
-        Provider<AuthService>(
-          create: (_) => AuthService(FirebaseAuth.instance),
-        ),
+        providers: [
+          Provider<AuthService>(
+            create: (_) => AuthService(FirebaseAuth.instance),
+          ),
           StreamProvider(
-          create: (context) => context.read<AuthService>().authStateChanges,
-          initialData: null,
-        ),
-        
-      ],
-      child:   MaterialApp(
-      title: 'MetroBike',
-       onGenerateRoute: RouteGenerator.generateRoute,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFFFFFF),
-        primarySwatch: Colors.blue,
-      ),
-      home: MainAuthPage(),
-    ));
+            create: (context) => context.read<AuthService>().authStateChanges,
+            initialData: null,
+          ),
+        ],
+        child: MaterialApp(
+          title: 'MetroBike',
+          onGenerateRoute: RouteGenerator.generateRoute,
+          theme: ThemeData(
+            scaffoldBackgroundColor: const Color(0xFFFFFFFF),
+            primarySwatch: Colors.blue,
+          ),
+          home: MainAuthPage(),
+        ));
   }
 }
-
-

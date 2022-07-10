@@ -5,8 +5,6 @@ import 'package:metrobike/Auth/register.dart';
 import 'package:metrobike/Auth/survey.dart';
 import 'package:metrobike/Auth/verifyaccpage.dart';
 
-
-
 import 'package:metrobike/app/MainAuthPage.dart';
 import 'package:metrobike/app/views/homepage.dart';
 
@@ -20,13 +18,13 @@ import 'Auth/identityverificationSecondary.dart';
 import 'Auth/personalize.dart';
 import 'Auth/selectIdPagePrimary.dart';
 import 'Auth/selectIdPageSecondary.dart';
+import 'Auth/verificationDonePage.dart';
 import 'Auth/verifyacc.dart';
 import 'Auth/survey.dart';
 import 'devpage.dart';
+import 'onboarding/onboarding.dart';
 
 class RouteGenerator {
-
-
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //final args = settings.arguments; //to be used if passing of arguments during navigation is required
 
@@ -39,7 +37,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => DevPage());
       case '/mainAuthPage':
         return MaterialPageRoute(builder: (_) => MainAuthPage());
-            case '/homepage':
+      case '/homepage':
         return MaterialPageRoute(builder: (_) => HomePage());
       case '/verifyacc1':
         return MaterialPageRoute(builder: (_) => const Verifyacc1());
@@ -48,15 +46,20 @@ class RouteGenerator {
       case '/personalize':
         return MaterialPageRoute(builder: (_) => const PersonalizeMessage());
       case '/survey':
-        return MaterialPageRoute(builder: (_) =>  const Survey());
+        return MaterialPageRoute(builder: (_) => const Survey());
       case '/selectID':
-        return MaterialPageRoute(builder: (_) =>  const Selectidpage());
+        return MaterialPageRoute(builder: (_) => const Selectidpage());
       case '/selectIDSecondary':
-        return MaterialPageRoute(builder: (_) =>  const SelectidpageSecondary());
+        return MaterialPageRoute(builder: (_) => const SelectidpageSecondary());
       case '/identitySecondary':
-        return MaterialPageRoute(builder: (_) =>  const indentityverifySecondary());
+        return MaterialPageRoute(
+            builder: (_) => const indentityverifySecondary());
       case '/identity':
-        return MaterialPageRoute(builder: (_) =>  const indentityverify());
+        return MaterialPageRoute(builder: (_) => const indentityverify());
+      case '/verProcessDone':
+        return MaterialPageRoute(builder: (_) => const VerifyaccPageDone());
+      case '/onboarding':
+        return MaterialPageRoute(builder: (_) => const Onboardingpage());
 
       default:
         return MaterialPageRoute(builder: (_) => JoinToday());
