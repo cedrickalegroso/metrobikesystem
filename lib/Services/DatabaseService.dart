@@ -7,6 +7,9 @@ class DatabaseService {
 
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+
+
+
   final String uid;
 //  var uid = FirebaseAuth.instance.currentUser.uid;
   DatabaseService({required this.uid});
@@ -25,7 +28,6 @@ class DatabaseService {
   // and personalize their accounts
   Future<bool> updateUserOnDatabase(
       {required String fullname,
-      required String username,
       required String email,
       required String address}) async {
     try {
@@ -33,10 +35,13 @@ class DatabaseService {
           .doc(uid)
           .update({
             'fullname': fullname,
-            'username': username,
             'address': address,
+            'email': email,
             'hasDoneSetup': true,
+            'hasDoneAccSetup': false,
           });
+
+     
       return true;
     } on Exception catch (e) {
       print(e);
@@ -49,17 +54,21 @@ class DatabaseService {
   Future<bool> initializeUseronCloudFirestore(
       {required String uid,
       required String
-          email // might be updated to Phone number on later development stages
+          phone // might be updated to Phone number on later development stages
       }) async {
     try {
       print('!!!!!!!!!!!!! received request to add ' + uid); // dev
       await userCollection.doc(uid).set({
-        'email': email,
+        'phone': phone,
+        'email': '',
         'fullname': '',
         'address': '',
         'password': '',
         'username': '',
+        'profilePicture': 'http://localhost:9199/v0/b/metrobike-ec82b.appspot.com/o/pp.png?alt=media&token=8a3c88b1-01d7-4f5c-addc-a246c732f5ee',
         'hasDoneSetup': false,
+        'hasDoneAccSetup': false,
+        'isEmailVerified': false,
         'isverified': false
       });
       return true; // UserInitialized on Cloud FireStore
@@ -211,6 +220,9 @@ class DatabaseService {
         fullName: snapshot['fullname'] ?? '',
         address: snapshot['fullname'] ?? '',
         username: snapshot['username'] ?? '',
+        profilePicture: snapshot['profilePicture'] ?? '',
+        hasDoneAccSetup: snapshot['hasDoneAccSetup'] ?? false,
+        isEmailVerified: snapshot['isEmailVerified'] ?? false,
         hasDoneSetup: snapshot['hasDoneSetup'] ?? false,
         isverified: snapshot['isverified'] ?? false,
       );

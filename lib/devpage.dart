@@ -196,6 +196,44 @@ class _DevPagePageState extends State<DevPage> {
                                 ),
                                 textAlign: TextAlign.center),
                           ),
+                          
+                            InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/emailverify');
+                            },
+                            child: const Text('Email Verify page',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                          
+                           InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/autheditacc');
+                            },
+                            child: const Text('Auth Acc Edit',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/otpauth');
+                            },
+                            child: const Text('OTP AUTH',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
                           InkWell(
                             onTap: () async {
                               await context.read<AuthService>().signout();

@@ -42,7 +42,8 @@ dependencies:
   provider: ^6.0.3
   image_picker: ^0.8.5+3
   firebase_storage: ^10.2.17
-
+  shared_preferences: ^2.0.15
+  pin_input_text_field: ^4.1.2
  
 
 dev_dependencies:

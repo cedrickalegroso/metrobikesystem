@@ -1,25 +1,25 @@
 // import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:metrobike/Services/AuthService.dart';
-import 'package:metrobike/Services/DatabaseService.dart';
 import 'package:provider/provider.dart';
 
-class JoinToday extends StatefulWidget {
+class OtpPage extends StatefulWidget {
   @override
-  _JoinTodayPageState createState() => _JoinTodayPageState();
+  _OtpPagePageState createState() => _OtpPagePageState();
 }
 
-class AuthVarHandler {
-  static bool otpVisibility = false;
-  static String verificationID = "";
-}
 
-class _JoinTodayPageState extends State<JoinToday> {
+class _OtpPagePageState extends State<OtpPage> {
+
+  
+
   @override
   void initState() {
     super.initState();
-    // DatabaseService().userData;
+       // ... any code here ...
+  
   }
 
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -27,8 +27,7 @@ class _JoinTodayPageState extends State<JoinToday> {
   final _phoneController = TextEditingController();
   final _otpController = TextEditingController();
 
-  // final _emailController = TextEditingController();
-  // final _passwordController = TextEditingController();
+  
 
   @override
   void dispose() {
@@ -55,15 +54,23 @@ class _JoinTodayPageState extends State<JoinToday> {
                 children: [
                   Center(
                     child: Column(
-                      children: const [
-                        Text('Join Today',
+                      children:  [
+                      const  Text('OTP Code',
                             style: TextStyle(
                               fontFamily: 'OpenSans',
                               fontSize: 40,
                               color: Color(0xff117AFF),
                               fontWeight: FontWeight.bold,
                             ),
-                            textAlign: TextAlign.center)
+                            textAlign: TextAlign.center),
+                             SizedBox( height:  MediaQuery.of(context).size.width / 20,),
+                       const        Text('SMS was sent to your number\nplease enter the code below.',
+                            style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            textAlign: TextAlign.center),
                       ],
                     ),
                   ),
@@ -73,26 +80,9 @@ class _JoinTodayPageState extends State<JoinToday> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              height: MediaQuery.of(context).size.width / 8,
-                              width: MediaQuery.of(context).size.width / 1,
-                              padding: const EdgeInsets.all(1),
-                              child: TextFormField(
-                                controller: _phoneController,
-                                decoration: const InputDecoration(
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xff117AFF), width: 2.0),
-                                  ),
-                                  labelText: '+ 63',
-                                  labelStyle:
-                                      TextStyle(color: Color(0xff117AFF)),
-                                ),
-                                keyboardType: TextInputType.phone,
-                              ),
-                            ),
-                            Visibility(
-                              child: TextField(
+                           
+                          
+                             TextField(
                                 controller: _otpController,
                                 decoration: const InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -105,8 +95,8 @@ class _JoinTodayPageState extends State<JoinToday> {
                                 ),
                                 keyboardType: TextInputType.number,
                               ),
-                              visible: AuthVarHandler.otpVisibility,
-                            ),
+                             
+                           
                             // Container(
                             //   height: MediaQuery.of(context).size.width / 8,
                             //   width: MediaQuery.of(context).size.width / 1,
@@ -144,6 +134,33 @@ class _JoinTodayPageState extends State<JoinToday> {
                             SizedBox(
                               height: MediaQuery.of(context).size.width / 20,
                             ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Didn't receive the code? ",
+                                      style: TextStyle(
+                                        fontFamily: 'OpenSans',
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      textAlign: TextAlign.center),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed('/register');
+                                    },
+                                    child: const Text('RESEND. ',
+                                        style: TextStyle(
+                                          fontFamily: 'OpenSans',
+                                          fontSize: 16,
+                                          color: Color(0xff117AFF),
+                                        ),
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ],
+                              ),
+                  SizedBox(
+                              height: MediaQuery.of(context).size.width / 10,
+                            ),
                             Container(
                               height: MediaQuery.of(context).size.width / 8,
                               width: MediaQuery.of(context).size.width / 1,
@@ -152,17 +169,20 @@ class _JoinTodayPageState extends State<JoinToday> {
                                 style: TextButton.styleFrom(
                                     backgroundColor: const Color(0xff117AFF)),
                                 onPressed: () async {
-                               
+                                 
                                     dynamic result = await context
                                         .read<AuthService>()
-                                        .loginWithPhone();
+                                        .verifyOTP(
+                                            otpText:
+                                                _otpController.text.trim());
                                     if (result) {
-                                      Navigator.of(context).pushNamed('/otpauth');
+                                     Navigator.of(context)
+                                        .pushNamed('/mainAuthPage');
                                     }
-                                  
+                               
                                 },
                                 child: const Text(
-                                  'Login',
+                                  'Confirm',
                                   style: TextStyle(
                                     fontFamily: 'OpenSans',
                                     fontSize: 16,
@@ -173,7 +193,7 @@ class _JoinTodayPageState extends State<JoinToday> {
                             )
                           ])),
                   Container(
-                    padding: const EdgeInsets.only(top: 32.0),
+                    padding: const EdgeInsets.only(top: 12.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -224,41 +244,5 @@ class _JoinTodayPageState extends State<JoinToday> {
         ))));
   }
 
-  // void loginWithPhone() async {
-  //   auth.verifyPhoneNumber(
-  //     phoneNumber: '+63 969 270 5897',
-  //     verificationCompleted: (PhoneAuthCredential credential) async {
-  //       await auth.signInWithCredential(credential).then((value){
-  //         print("You are logged in successfully");
-  //       });
-  //     },
-  //     verificationFailed: (FirebaseAuthException e) {
-  //       print(e.message);
-  //     },
-  //     codeSent: (String verificationId, int? resendToken) {
-  //       otpVisibility = true;
-  //       verificationID = verificationId;
-  //       setState(() {});
-  //     },
-  //     codeAutoRetrievalTimeout: (String verificationId) {
 
-  //     },
-  //   );
-  // }
-
-  // void verifyOTP() async {
-
-  //   PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationID, smsCode: _otpController.text);
-
-  //   await auth.signInWithCredential(credential).then((value){
-
-  //      DatabaseService(uid: FirebaseAuth.instance.currentUser!.uid)
-  //                 .initializeUseronCloudFirestore(
-  //                     uid: FirebaseAuth.instance.currentUser!.uid,
-  //                     phone: _phoneController.text.trim());
-
-  //   });
-
-  //    Navigator.of(context).pushNamed('/mainAuthPage');
-  // }
 }

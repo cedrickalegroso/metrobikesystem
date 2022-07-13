@@ -12,9 +12,12 @@ import 'package:metrobike/app/views/homepage.dart';
 import 'package:metrobike/auth/jointoday.dart' as jointayo;
 import 'package:metrobike/auth/register.dart' as registertayo;
 
+import 'Auth/autheditprofile.dart';
+import 'Auth/emailverify.dart';
 import 'Auth/idcameratake.dart';
 import 'Auth/identitiverification.dart';
 import 'Auth/identityverificationSecondary.dart';
+import 'Auth/otpverifypage.dart';
 import 'Auth/personalize.dart';
 import 'Auth/selectIdPagePrimary.dart';
 import 'Auth/selectIdPageSecondary.dart';
@@ -60,7 +63,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const VerifyaccPageDone());
       case '/onboarding':
         return MaterialPageRoute(builder: (_) => const Onboardingpage());
-
+      case '/autheditacc':
+        return MaterialPageRoute(builder: (_) =>  AuthEditProfile());
+       case '/emailverify':
+        return MaterialPageRoute(builder: (_) => const VerifyEmail());
+       case '/otpauth':
+        return MaterialPageRoute(builder: (_) =>  OtpPage());
       default:
         return MaterialPageRoute(builder: (_) => JoinToday());
     }
