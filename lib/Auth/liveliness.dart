@@ -12,90 +12,82 @@ import 'package:provider/provider.dart';
 import '../Services/DatabaseService.dart';
 import '../Services/Models.dart';
 
-class SelectidpageSecondary extends StatefulWidget {
-  const SelectidpageSecondary({Key? key}) : super(key: key);
+class Liveliness extends StatefulWidget {
+  const Liveliness({Key? key}) : super(key: key);
 
   static const String assetName = 'assets/secure.svg';
   @override
   _VerifyaccpagePageState createState() => _VerifyaccpagePageState();
 }
 
-class _VerifyaccpagePageState extends State<SelectidpageSecondary> {
+class _VerifyaccpagePageState extends State<Liveliness> {
   @override
   void initState() {
     super.initState();
     // DatabaseService().userData;
   }
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  String dropdownValue = 'Select Card';
 
   final _imagePicker = ImagePicker();
 
   late var cardType = "";
 
   String idURL = "";
-   String idURLBack = "";
 
-  String generateRandomString(int len) {
-    var r = Random();
-    String randomString =
-        String.fromCharCodes(List.generate(len, (index) => r.nextInt(33) + 89));
-    return randomString;
-  }
+
 
   @override
   Widget build(BuildContext context) {
     final firebaseuser = context.watch<User>();
     final userData = context.watch<UserData?>();
 
-  
-
     _takePicture() async {
       final image1 = await _imagePicker.getImage(source: ImageSource.camera);
 
-      final image2 = await _imagePicker.getImage(source: ImageSource.camera);
+      
 
       firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
           .ref()
           .child('/${firebaseuser.uid}')
           .child('VERIFICATIONS')
           .child('IDENTIFICATIONS')
-          .child('secondary')
-          .child(firebaseuser.uid + 'front.png');
+          .child('selfie')
+          .child(firebaseuser.uid + 'selfie.png');
 
-      firebase_storage.Reference ref2 = firebase_storage.FirebaseStorage.instance
-          .ref()
-          .child('/${firebaseuser.uid}')
-          .child('VERIFICATIONS')
-          .child('IDENTIFICATIONS')
-          .child('secondary')
-          .child(firebaseuser.uid + 'back.png');
-
+    
       firebase_storage.UploadTask uploadTask;
-      firebase_storage.UploadTask uploadTask2;
+    
 
 
       uploadTask = ref.putFile(File(image1!.path));
-      uploadTask2 = ref2.putFile(File(image2!.path));
+    
 
 
       await uploadTask;
-      await uploadTask2;
+    
 
 
     await  ref.getDownloadURL().then((fileUrl) {
         idURL = fileUrl;       
       });
 
-    await  ref2.getDownloadURL().then((fileUrl) {
-        idURLBack = fileUrl;
-      });
-
+  
 
       }
+       
+
+    _callToInitialize() async {
+      // dynamic result =
+      //     await context.read<DatabaseService>().initializeAttemptVerification(
+      //           reference: generateRandomString(5),
+      //           frontpicURL: frontpicURL,
+      //           backpicURL: backpicURL,
+      //           cardType: cardType,
+      //         );
+      // if (result) {
+      //   Navigator.of(context).pushNamed('/identity');
+      // }
+    }
 
     final screenData = MediaQuery.of(context);
 
@@ -145,22 +137,15 @@ class _VerifyaccpagePageState extends State<SelectidpageSecondary> {
                                   SizedBox(
                                     height: screenData.size.height / 35,
                                   ),
-                                  const Text("Select your",
-                                      style: TextStyle(
-                                        fontFamily: 'OpenSans',
-                                        fontSize: 32,
-                                        color: Color(0xff117AFF),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.right),
-                                  const Text("Secondary ID",
-                                      style: TextStyle(
-                                        fontFamily: 'OpenSans',
-                                        fontSize: 32,
-                                        color: Color(0xff117AFF),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.right)
+                          // const  Text  ("Liveliness check" ,
+                          //             style: TextStyle(
+                          //               fontFamily: 'OpenSans',
+                          //               fontSize: 32,
+                          //               color: Color(0xff117AFF),
+                          //               fontWeight: FontWeight.bold,
+                          //             ),
+                          //             textAlign: TextAlign.center),
+                                
                                 ],
                               )),
                           Container(
@@ -170,24 +155,62 @@ class _VerifyaccpagePageState extends State<SelectidpageSecondary> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  SizedBox(height: 32),
-                                  GestureDetector(
+                                  
+                                   Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        padding: const EdgeInsets.all(1),
+                        child:
+                            const Image(image: AssetImage('assets/facematch.png')),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(top: 32.0),
+                        width: MediaQuery.of(context).size.width / 1,
+                        child: const Text("Verify your liveliness.",
+                            style: TextStyle(
+                              fontFamily: 'OpenSans',
+                              fontSize: 32,
+                              color: Color(0xff117AFF),
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center),
+                      ),
+                          Container(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          Text(
+                              "Take a selfie!. ",
+                              style: TextStyle(
+                                fontFamily: 'OpenSans',
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                              ),
+                              textAlign: TextAlign.center),
+                        ])),
+                        SizedBox(height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              50,),
+                               GestureDetector(
                                     onTap: () async {
-                                      cardType = "SchoolID";
+                                      
+                                      await  _takePicture();
 
-                                      await _takePicture();
-                                   
+                                      // await _takeIDPicture1();
+                                      // await _takeIDPicture2();
 
                                       await DatabaseService(
                                               uid: firebaseuser.uid)
-                                          .initializeAttemptSecondaryVerification(
+                                          .addSelfieonVerifications(
                                               reference: firebaseuser.uid,
                                               idURL: idURL,
-                                               idURLBack: idURLBack,
-                                              cardType: cardType)
+                                              )
                                           .then((value) => {
                                                 Navigator.of(context)
-                                                    .pushNamed('/identitySecondary')
+                                                    .pushNamed('/verProcessDone')
                                               });
                                     },
                                     child: Padding(
@@ -229,24 +252,9 @@ class _VerifyaccpagePageState extends State<SelectidpageSecondary> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    20,
-                                                padding:
-                                                    const EdgeInsets.all(1),
-                                                child: const Image(
-                                                    image: AssetImage(
-                                                        'assets/idlogo.png')),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    30,
-                                              ),
-                                              Text("School ID",
+                                            
+                                            
+                                              Text("Start",
                                                   style: TextStyle(
                                                     fontFamily: 'OpenSans',
                                                     fontSize: 16,

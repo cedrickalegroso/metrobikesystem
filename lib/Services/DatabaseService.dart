@@ -49,6 +49,39 @@ class DatabaseService {
     }
   }
 
+  Future<bool> updateProfilePhoto(
+      {required String profilePicture}) async {
+    try {
+      print('received PP change $profilePicture');
+      await userCollection
+          .doc(uid)
+          .update({
+            'profilePicture': profilePicture,
+          });
+      return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+   Future<bool> updateUsername(
+      {required String username}) async {
+    try {
+      print('received PP change $username');
+      await userCollection
+          .doc(uid)
+          .update({
+            'username': username,
+            'hasDoneAccSetup': true
+          });
+      return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   // Initialize the Account on Cloud Firestore
   // We can use this later for Updating their accounts
   Future<bool> initializeUseronCloudFirestore(
@@ -59,13 +92,14 @@ class DatabaseService {
     try {
       print('!!!!!!!!!!!!! received request to add ' + uid); // dev
       await userCollection.doc(uid).set({
+        'uid': uid,
         'phone': phone,
         'email': '',
         'fullname': '',
         'address': '',
         'password': '',
         'username': '',
-        'profilePicture': 'http://localhost:9199/v0/b/metrobike-ec82b.appspot.com/o/pp.png?alt=media&token=8a3c88b1-01d7-4f5c-addc-a246c732f5ee',
+        'profilePicture': 'https://firebasestorage.googleapis.com/v0/b/metrobike-ec82b.appspot.com/o/pp.png?alt=media&token=b18bdda7-63af-4c36-a9b6-06bf714f03e1',
         'hasDoneSetup': false,
         'hasDoneAccSetup': false,
         'isEmailVerified': false,
@@ -86,18 +120,19 @@ class DatabaseService {
     {
       required String reference,
        required String idURL,
+       required String idURLBack,
           required String cardType,
             required String email,
     }) async {
      
     try {
-       print('insered on DB ' + email);
+       print('PRIMARY ID CARD LINKS ' + idURL + ' + ' + idURLBack);
       await verificationCollection.doc(reference).set({
         'referenceCode': reference,    
          'email': email,
         'status': 0,
       });
-      createPrimaryCardInformartions(reference: reference, idURL: idURL, cardType: cardType);
+      createPrimaryCardInformartions(reference: reference, idURL: idURL, idURLBack: idURLBack, cardType: cardType);
     return true;
     } on Exception catch (e) {
       print(e);
@@ -109,12 +144,33 @@ class DatabaseService {
     {
       required String reference,
        required String idURL,
+       required String idURLBack,
           required String cardType
     }) async {
     try {
       await verificationCollection.doc(reference).collection('informations').doc('primary').set({
          'id_photo_url': idURL,
+         'id_photo_url_back': idURLBack,
          'cardType': cardType,
+      });
+    return true;
+    } on Exception catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+
+//   final LatLng _center = const LatLng(10.7184086, 122.5485873);
+
+    Future<bool> addSelfieonVerifications(
+    {
+      required String reference,
+       required String idURL,
+    }) async {
+    try {
+      await verificationCollection.doc(reference).collection('informations').doc('selfie').set({
+         'id_photo_url': idURL,
       });
     return true;
     } on Exception catch (e) {
@@ -155,6 +211,7 @@ class DatabaseService {
     {
       required String reference,
        required String idURL,
+        required String idURLBack,
           required String cardType
           
     }) async {
@@ -163,7 +220,7 @@ class DatabaseService {
         'referenceCode': reference,      
         'status': 0,
       });
-      createSecondaryCardInformartions(reference: reference, idURL: idURL, cardType: cardType);
+      createSecondaryCardInformartions(reference: reference, idURL: idURL, idURLBack: idURLBack, cardType: cardType);
     return true;
     } on Exception catch (e) {
       print(e);
@@ -175,11 +232,13 @@ class DatabaseService {
     {
       required String reference,
        required String idURL,
+        required String idURLBack,
           required String cardType
     }) async {
     try {
       await verificationCollection.doc(reference).collection('informations').doc('secondary').set({
          'id_photo_url': idURL,
+          'id_photo_url_back': idURLBack,
          'cardType': cardType,
       });
     return true;

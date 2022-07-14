@@ -37,7 +37,7 @@ class _MainAuthPageState extends State<MainAuthPage> {
             print('No user is logged in');
             return JoinToday();
           } else {
-            print( 'User with uid: ${firebaseuser.uid} is logged in');
+            print( 'User with uid: ${firebaseuser.uid} is logged in ${firebaseuser.emailVerified}');
             return  HomeWrapper();
           }
   

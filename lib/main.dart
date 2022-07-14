@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:metrobike/app/MainAuthPage.dart';
 import 'package:metrobike/firebase_options.dart';
-import 'package:metrobike/onboarding/onboarding.dart';
+import 'package:metrobike/misc/onboarding.dart';
 import 'package:metrobike/route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';

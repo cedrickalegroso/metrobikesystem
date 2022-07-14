@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../Services/AuthService.dart';
 import '../../Services/Models.dart';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DashboardComStateful extends StatefulWidget {
   @override
@@ -14,6 +15,14 @@ class DashboardComStateful extends StatefulWidget {
 
 class _DashboardComStateful extends State<DashboardComStateful> {
   int _selectedIndex = 0;
+
+   late GoogleMapController mapController;
+
+ final LatLng _center = const LatLng(10.7184086, 122.5485873);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,10 +33,7 @@ class _DashboardComStateful extends State<DashboardComStateful> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+ 
     Text(
       'Index 1: OBJ DETECTION',
       style: optionStyle,
@@ -57,45 +63,18 @@ class _DashboardComStateful extends State<DashboardComStateful> {
                   ),
                   backgroundColor: Colors.white,
                 ),
-                body: Center(
-                  child: Column(children: [
-                    const Text('Community'),
-                   InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/devpage');
-                          },
-                          child: const Text('DEV MODE',
-                              style: TextStyle(
-                                fontFamily: 'OpenSans',
-                                fontSize: 16,
-                                color: Color(0xff117AFF),
-                              ),
-                              textAlign: TextAlign.center),
-                        ),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<AuthService>().signout();
-                      },
-                      child: Text("Sign Out"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/addPost');
-                      },
-                      child: Text("add Post"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Sign wew"),
-                    ),
-                    _widgetOptions.elementAt(_selectedIndex)
-                  ]),
-                ),
+                body:  GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ),
                 bottomNavigationBar: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
                       icon: Icon(Icons.home),
-                      label: 'Home',
+                      label: 'Simpas',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.business),
@@ -107,7 +86,7 @@ class _DashboardComStateful extends State<DashboardComStateful> {
                     )
                   ],
                   currentIndex: _selectedIndex,
-                  selectedItemColor: Colors.amber[800],
+                  selectedItemColor: const Color(0xff117AFF),
                   onTap: _onItemTapped,
                 ),
               );

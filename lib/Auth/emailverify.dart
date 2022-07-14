@@ -56,7 +56,7 @@ class _VerifyEmailPageState extends State<VerifyEmail> {
   await firebaseuser.reload();
   print(firebaseuser.emailVerified);
  }
-
+   firebaseuser.sendEmailVerification();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SafeArea(
@@ -81,7 +81,7 @@ class _VerifyEmailPageState extends State<VerifyEmail> {
                       Container(
                         padding: const EdgeInsets.only(top: 32.0),
                         width: MediaQuery.of(context).size.width / 1,
-                        child: const Text("Verify your",
+                        child: const Text("Verify your Email",
                             style: TextStyle(
                               fontFamily: 'OpenSans',
                               fontSize: 40,
@@ -90,14 +90,7 @@ class _VerifyEmailPageState extends State<VerifyEmail> {
                             ),
                             textAlign: TextAlign.center),
                       ),
-                      const Text("Email",
-                          style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontSize: 40,
-                            color: Color(0xff117AFF),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center),
+                  
                     ],
                   ),
                 ),
@@ -133,10 +126,10 @@ class _VerifyEmailPageState extends State<VerifyEmail> {
                           
                           
                           await firebaseuser.sendEmailVerification();
-                          _reloadUser();
+                        
                         },
                         child: const Text(
-                          'Already Verified',
+                          'Send Verification',
                           style: TextStyle(
                             fontFamily: 'OpenSans',
                             fontSize: 16,
@@ -146,34 +139,34 @@ class _VerifyEmailPageState extends State<VerifyEmail> {
                       ),
                     )),
 
-                      Container(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.width / 7,
-                      width: MediaQuery.of(context).size.width / 1,
-                      padding: const EdgeInsets.all(1),
-                      child: ElevatedButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: const BorderSide(
-                                  width: 2.0, color: Color(0xff117AFF)),
-                            )),
-                        onPressed: () async {
-                        await  firebaseuser.sendEmailVerification();
+                    //   Container(
+                    // padding: const EdgeInsets.only(top: 16.0),
+                    // child: Container(
+                    //   height: MediaQuery.of(context).size.width / 7,
+                    //   width: MediaQuery.of(context).size.width / 1,
+                    //   padding: const EdgeInsets.all(1),
+                    //   child: ElevatedButton(
+                    //     style: TextButton.styleFrom(
+                    //         backgroundColor: Colors.white,
+                    //         shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           side: const BorderSide(
+                    //               width: 2.0, color: Color(0xff117AFF)),
+                    //         )),
+                    //     onPressed: () async {
+                    //     await  firebaseuser.sendEmailVerification();
                           
-                        },
-                        child: const Text(
-                          'Resend Email (10)',
-                          style: TextStyle(
-                            fontFamily: 'OpenSans',
-                            fontSize: 16,
-                            color: Color(0xff117AFF),
-                          ),
-                        ),
-                      ),
-                    )),
+                    //     },
+                    //     child: const Text(
+                    //       'Resend Email (10)',
+                    //       style: TextStyle(
+                    //         fontFamily: 'OpenSans',
+                    //         fontSize: 16,
+                    //         color: Color(0xff117AFF),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // )),
              
               ]),
         ),

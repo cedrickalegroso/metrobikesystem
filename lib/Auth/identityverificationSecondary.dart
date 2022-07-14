@@ -287,6 +287,8 @@ class _VerifyaccpagePageState extends State<indentityverifySecondary> {
                                     _PlaceIssuedOnSecondaryCard.text.trim())
                                           .then((value) => {
                                               
+Navigator.of(context).pushNamed('/liveliness')
+                                              
                                               });
 
 

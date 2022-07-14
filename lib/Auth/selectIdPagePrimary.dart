@@ -37,6 +37,7 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
   late var cardType = "";
 
   String idURL = "";
+   String idURLBack = "";
 
   String generateRandomString(int len) {
     var r = Random();
@@ -50,8 +51,10 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
     final firebaseuser = context.watch<User>();
     final userData = context.watch<UserData?>();
 
-    _takeIDPicture1() async {
-      final image = await _imagePicker.getImage(source: ImageSource.camera);
+    _takePicture() async {
+      final image1 = await _imagePicker.getImage(source: ImageSource.camera);
+
+      final image2 = await _imagePicker.getImage(source: ImageSource.camera);
 
       firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
           .ref()
@@ -61,18 +64,7 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
           .child('primary')
           .child(firebaseuser.uid + 'front.png');
 
-      firebase_storage.UploadTask uploadTask;
-      uploadTask = ref.putFile(File(image!.path));
-      await uploadTask;
-      ref.getDownloadURL().then((fileUrl) {
-        idURL = fileUrl;
-      });
-    }
-
-    _takeIDPicture2() async {
-      final image = await _imagePicker.getImage(source: ImageSource.camera);
-
-      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+      firebase_storage.Reference ref2 = firebase_storage.FirebaseStorage.instance
           .ref()
           .child('/${firebaseuser.uid}')
           .child('VERIFICATIONS')
@@ -81,12 +73,29 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
           .child(firebaseuser.uid + 'back.png');
 
       firebase_storage.UploadTask uploadTask;
-      uploadTask = ref.putFile(File(image!.path));
+      firebase_storage.UploadTask uploadTask2;
+
+
+      uploadTask = ref.putFile(File(image1!.path));
+      uploadTask2 = ref2.putFile(File(image2!.path));
+
+
       await uploadTask;
-      ref.getDownloadURL().then((fileUrl) {
-        idURL = fileUrl;
+      await uploadTask2;
+
+
+    await  ref.getDownloadURL().then((fileUrl) {
+        idURL = fileUrl;       
       });
-    }
+
+    await  ref2.getDownloadURL().then((fileUrl) {
+        idURLBack = fileUrl;
+      });
+ print('front $idURL');
+  print('back $idURLBack');
+
+      }
+       
 
     _callToInitialize() async {
       // dynamic result =
@@ -179,14 +188,17 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
                                     onTap: () async {
                                       cardType = "Passport";
 
-                                      await _takeIDPicture1();
-                                      await _takeIDPicture2();
+                                      await  _takePicture();
+
+                                      // await _takeIDPicture1();
+                                      // await _takeIDPicture2();
 
                                       await DatabaseService(
                                               uid: firebaseuser.uid)
                                           .initializeAttemptVerification(
                                               reference: firebaseuser.uid,
                                               idURL: idURL,
+                                               idURLBack: idURLBack,
                                               cardType: cardType,
                                               email: firebaseuser.email.toString()
                                               )
@@ -271,13 +283,13 @@ class _VerifyaccpagePageState extends State<Selectidpage> {
                                     onTap: () async {
                                       cardType = "Drivers_License";
 
-                                      _takeIDPicture1().then((value) async =>
-                                          _takeIDPicture2().then((value) =>
-                                              _callToInitialize().then(
-                                                  (value) =>
-                                                      Navigator.of(context)
-                                                          .pushNamed(
-                                                              '/identity'))));
+                                      // _takeIDPicture1().then((value) async =>
+                                      //     _takeIDPicture2().then((value) =>
+                                      //         _callToInitialize().then(
+                                      //             (value) =>
+                                      //                 Navigator.of(context)
+                                      //                     .pushNamed(
+                                      //                         '/identity'))));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(

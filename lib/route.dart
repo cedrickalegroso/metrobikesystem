@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:metrobike/Auth/jointoday.dart';
+import 'package:metrobike/Auth/liveliness.dart';
 import 'package:metrobike/Auth/register.dart';
 import 'package:metrobike/Auth/survey.dart';
 import 'package:metrobike/Auth/verifyaccpage.dart';
@@ -25,7 +26,7 @@ import 'Auth/verificationDonePage.dart';
 import 'Auth/verifyacc.dart';
 import 'Auth/survey.dart';
 import 'devpage.dart';
-import 'onboarding/onboarding.dart';
+import 'misc/onboarding.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -69,6 +70,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const VerifyEmail());
        case '/otpauth':
         return MaterialPageRoute(builder: (_) =>  OtpPage());
+       case '/liveliness':
+        return MaterialPageRoute(builder: (_) =>  Liveliness());
       default:
         return MaterialPageRoute(builder: (_) => JoinToday());
     }

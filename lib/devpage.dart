@@ -14,6 +14,7 @@ class _DevPagePageState extends State<DevPage> {
     // DatabaseService().userData;
   }
 
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -215,6 +216,18 @@ class _DevPagePageState extends State<DevPage> {
                               Navigator.of(context).pushNamed('/autheditacc');
                             },
                             child: const Text('Auth Acc Edit',
+                                style: TextStyle(
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 16,
+                                  color: Color(0xff117AFF),
+                                ),
+                                textAlign: TextAlign.center),
+                          ),
+                            InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushNamed('/liveliness');
+                            },
+                            child: const Text('Liveliness',
                                 style: TextStyle(
                                   fontFamily: 'OpenSans',
                                   fontSize: 16,

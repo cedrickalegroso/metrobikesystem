@@ -5,6 +5,12 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
          android:usesCleartextTraffic="true">
+
+
+             <!-- TODO: Add your Google Maps API key here -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBNjK_E9dYI4AiAq4NZtZP7KXVcYIDdMpQ"/>
+
         
         <activity
             android:name=".MainActivity"
